@@ -14,7 +14,7 @@ namespace CQRS.Features.Events.Commands
         public int CoverPhotoID { get; set; }
         public int SourceID { get; set; }
         public int PhotoAlbumID { get; set; }
-        public ICollection<Category> categories { get; set; }
+        public List<int> categories { get; set; }
 
     }
 }

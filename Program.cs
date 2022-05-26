@@ -3,16 +3,31 @@ using CQRS.Data;
 using CQRS.Services.EventService;
 using MediatR;
 using System.Reflection;
+using CQRS.Services.PhotoAlbumService;
+using CQRS.Services.SourcesService;
+using Microsoft.AspNetCore.Mvc.Razor;
+using CQRS.Services.PhotoService;
+using CQRS.Services.CategoryService;
+using CQRS.ViewModels.AutoMapper;
+using CQRS.Services.EventCategoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+
 builder.Services.AddScoped<IEventService,EventService>();
-builder.Services.AddDbContext<DBContext>(options =>
+builder.Services.AddScoped<IPhotoAlbumsService,PhotoAlbumsService>();
+builder.Services.AddScoped<ISourceService,SourcesService>();
+builder.Services.AddScoped<IPhotoService,PhotoService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IEventCategoryService, EventCategoryService>();
+builder.Services.AddDbContext<DBContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBContext") ?? throw new InvalidOperationException("Connection string 'DBContext' not found.")));
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(typeof(SharedProfile));
 
 var app = builder.Build();
 
@@ -38,4 +53,5 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
+app.MapControllers();
 app.Run();

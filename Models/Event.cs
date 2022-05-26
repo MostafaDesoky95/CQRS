@@ -12,7 +12,7 @@ namespace CQRS.Models
         public string Address { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        [ForeignKey("CoverPhoto")]
+        [ForeignKey("Photo")]
         public int CoverPhotoID { get; set; }
         [ForeignKey("Source")]
         public int SourceID { get; set; }
@@ -21,10 +21,10 @@ namespace CQRS.Models
 
 
 
-        public virtual Photo CoverPhoto { get; set; }
+        public Photo CoverPhoto { get; set; }
         public virtual Source Source { get; set; }
         public PhotoAlbum PhotoAlbum { get; set; }
-        public ICollection<Category> Categories { get; set; }
+        public ICollection<CategoryEvent> CategoryEvents { get; set; }
 
 
 

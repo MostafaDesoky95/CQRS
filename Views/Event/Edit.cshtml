@@ -1,0 +1,78 @@
+﻿@model CQRS.Models.Event
+ 
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    var PhotoID = @Model.CoverPhotoID.ToString();
+}
+ 
+<h1>Edit Event</h1>
+ 
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            <input asp-for="ID" class="form-control" type="hidden" />
+            <div class="form-group">
+                <label asp-for="ArabicTitle" class="control-label"></label>
+                <input asp-for="ArabicTitle" class="form-control" />
+                <span asp-validation-for="ArabicTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnglishTitle" class="control-label"></label>
+                <input asp-for="EnglishTitle" class="form-control" />
+                <span asp-validation-for="EnglishTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+            <span>Select Photo Album</span>
+              <select asp-for="PhotoAlbumID" 
+                asp-items="@(IEnumerable<SelectListItem>)ViewBag.Albums">
+            </select>
+            </div >
+            <div class="form-group mt-2 mb-2">
+            <span>Select Source</span>
+              <select asp-for="SourceID" 
+                asp-items="@(IEnumerable<SelectListItem>)ViewBag.Sources">
+            </select>
+            </div >
+            <div class="form-group mt-2 mb-2">
+                <span>Select Cover Photo</span>
+                @foreach (var gender in ViewBag.Photos)
+                {
+                    @if(PhotoID == @gender.Value)
+                    {
+                        <input selected type="radio" asp-for="CoverPhotoID" value="@gender.Value" /><img width="100px" height="100px" src="~/photos/@gender.Text" asp-append-version="true"><br />
+                    }
+                    else
+                    {
+                        <input  type="radio" asp-for="CoverPhotoID" value="@gender.Value" /><img width="100px" height="100px" src="~/photos/@gender.Text" asp-append-version="true"><br />
+                    }
+                }              
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

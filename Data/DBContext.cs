@@ -13,11 +13,16 @@ namespace CQRS.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CategoryEvent>().HasKey(sc => new { sc.CategoriesID, sc.EventsID });
+        }
 
         public DbSet<CQRS.Models.Photo> Photos { get; set; }
         public DbSet<CQRS.Models.Category> Categorys { get; set; }
         public DbSet<CQRS.Models.PhotoAlbum> PhotoAlbums { get; set; }
         public DbSet<CQRS.Models.Event> Events { get; set; }
         public DbSet<CQRS.Models.Source> Sources { get; set; }
+        public DbSet<CQRS.Models.CategoryEvent> CategoryEvent { get; set; }
     }
 }
